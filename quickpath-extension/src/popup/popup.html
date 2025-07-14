@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuickPath</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>QuickPath</h1>
+      <p class="tagline">Navigate paths across domains</p>
+    </header>
+    
+    <div class="current-path">
+      <label>Current Path:</label>
+      <span id="currentPath">/</span>
+      <button id="savePath" class="btn-primary">Save Path</button>
+    </div>
+    
+    <div class="search-section">
+      <input type="text" id="searchInput" placeholder="Search saved paths..." />
+    </div>
+    
+    <div class="paths-section">
+      <h3>Saved Paths</h3>
+      <div id="pathsList" class="paths-list">
+        <div class="empty-state">
+          <p>No saved paths yet</p>
+          <p class="hint">Save the current path to get started</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button id="clearAll" class="btn-secondary">Clear All</button>
+      <button id="exportPaths" class="btn-secondary">Export</button>
+      <button id="importPaths" class="btn-secondary">Import</button>
+    </div>
+  </div>
+  
+  <input type="file" id="importFile" accept=".json" style="display: none;">
+  
+  <script src="popup.js"></script>
+</body>
+</html>
