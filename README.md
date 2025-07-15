@@ -1,6 +1,6 @@
-# QuickPath Chrome Extension
+# SwiftPath Chrome Extension
 
-QuickPath allows you to bookmark and quickly navigate to paths across different domains. Perfect for developers, system administrators, and anyone managing multiple websites with similar structures.
+SwiftPath allows you to bookmark and quickly navigate to paths across different domains. Perfect for developers, system administrators, and anyone managing multiple websites with similar structures.
 
 ## Features
 
@@ -20,9 +20,17 @@ QuickPath allows you to bookmark and quickly navigate to paths across different 
 ## Usage
 
 1. Navigate to any page
-2. Click the QuickPath icon or press `Ctrl+Shift+P`
+2. Click the SwiftPath icon or press `Ctrl+Shift+P`
 3. Click "Save Path" to bookmark the current path
 4. Click on saved paths to navigate to them on the current domain
+
+## Privacy
+
+SwiftPath respects your privacy:
+- All data is stored locally in your browser
+- No data is transmitted to external servers
+- No tracking or analytics
+- See [PRIVACY_POLICY.md](PRIVACY_POLICY.md) for full details
 
 ## Development
 
@@ -32,10 +40,12 @@ QuickPath allows you to bookmark and quickly navigate to paths across different 
 
 ## License
 
-MIT License
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Let's check our final project structure:
+## Contributing
 
-```bash
-Get-ChildItem -Recurse | Select-Object FullName
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+For support or questions, please open an issue on the project repository.

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "QuickPath",
+  "name": "SwiftPath",
   "version": "1.0.0",
   "description": "Bookmark and quickly navigate to paths across different domains. Perfect for developers and admins managing multiple sites.",
   
@@ -27,7 +27,7 @@
   
   "action": {
     "default_popup": "src/popup/popup.html",
-    "default_title": "QuickPath - Navigate to saved paths",
+    "default_title": "SwiftPath - Navigate to saved paths",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png",
@@ -49,7 +49,7 @@
         "default": "Ctrl+Shift+P",
         "mac": "Command+Shift+P"
       },
-      "description": "Open QuickPath popup"
+      "description": "Open SwiftPath popup"
     }
   }
 }

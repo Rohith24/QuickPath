@@ -1,4 +1,4 @@
-class QuickPath {
+class SwiftPath {
   constructor() {
     this.currentTab = null;
     this.savedPaths = [];
@@ -18,12 +18,12 @@ class QuickPath {
   }
 
   async loadSavedPaths() {
-    const result = await chrome.storage.sync.get(['quickpaths']);
-    this.savedPaths = result.quickpaths || [];
+    const result = await chrome.storage.sync.get(['swiftpaths']);
+    this.savedPaths = result.swiftpaths || [];
   }
 
   async savePaths() {
-    await chrome.storage.sync.set({ quickpaths: this.savedPaths });
+    await chrome.storage.sync.set({ swiftpaths: this.savedPaths });
   }
 
   setupEventListeners() {
@@ -293,7 +293,7 @@ class QuickPath {
     
     const link = document.createElement('a');
     link.href = URL.createObjectURL(dataBlob);
-    link.download = 'quickpath-export.json';
+    link.download = 'swiftpath-export.json';
     link.click();
     
     this.showNotification('Paths exported!');
@@ -418,5 +418,5 @@ class QuickPath {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.quickPath = new QuickPath();
+  window.swiftPath = new SwiftPath();
 });

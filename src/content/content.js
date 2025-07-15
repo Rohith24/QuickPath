@@ -1,4 +1,4 @@
-class QuickPathContent {
+class SwiftPathContent {
   constructor() {
     this.init();
   }
@@ -30,4 +30,4 @@ class QuickPathContent {
   }
 }
 
-new QuickPathContent();
+new SwiftPathContent();

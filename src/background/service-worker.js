@@ -1,4 +1,4 @@
-class QuickPathBackground {
+class SwiftPathBackground {
   constructor() {
     this.init();
   }
@@ -21,10 +21,10 @@ class QuickPathBackground {
 
   handleInstall(details) {
     if (details.reason === 'install') {
-      console.log('QuickPath installed');
+      console.log('SwiftPath installed');
       
       chrome.storage.sync.set({
-        quickpaths: [],
+        swiftpaths: [],
         settings: {
           showNotifications: true,
           autoSuggest: true,
@@ -32,7 +32,7 @@ class QuickPathBackground {
         }
       });
     } else if (details.reason === 'update') {
-      console.log('QuickPath updated to version', chrome.runtime.getManifest().version);
+      console.log('SwiftPath updated to version', chrome.runtime.getManifest().version);
     }
   }
 
@@ -77,8 +77,8 @@ class QuickPathBackground {
       
       if (path === '/') return { success: false, error: 'Cannot save root path' };
 
-      const result = await chrome.storage.sync.get(['quickpaths']);
-      const savedPaths = result.quickpaths || [];
+      const result = await chrome.storage.sync.get(['swiftpaths']);
+      const savedPaths = result.swiftpaths || [];
 
       const existingIndex = savedPaths.findIndex(p => p.path === path);
       const generatedName = this.generatePathName(path);
@@ -113,7 +113,7 @@ class QuickPathBackground {
         savedPaths.unshift(pathData);
       }
 
-      await chrome.storage.sync.set({ quickpaths: savedPaths });
+      await chrome.storage.sync.set({ swiftpaths: savedPaths });
       
       return { 
         success: true, 
@@ -129,8 +129,8 @@ class QuickPathBackground {
 
   async checkNameExists(name, excludeId = null) {
     try {
-      const result = await chrome.storage.sync.get(['quickpaths']);
-      const savedPaths = result.quickpaths || [];
+      const result = await chrome.storage.sync.get(['swiftpaths']);
+      const savedPaths = result.swiftpaths || [];
       
       return savedPaths.some(p => p.name === name && p.id !== excludeId);
     } catch (error) {
@@ -166,4 +166,4 @@ class QuickPathBackground {
   }
 }
 
-new QuickPathBackground();
+new SwiftPathBackground();
