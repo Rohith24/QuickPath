@@ -1,0 +1,38 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="verticalGradient48" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.05" />
+      <stop offset="40%" style="stop-color:#0099FF;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#0066CC;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="verticalAccent48" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="verticalBg48" cx="50%" cy="80%" r="30%">
+      <stop offset="0%" style="stop-color:rgba(0,212,255,0.15);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(0,212,255,0.02);stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <!-- Background swift effect -->
+  <ellipse cx="24" cy="38" rx="20" ry="8" fill="url(#verticalBg48)"/>
+  
+  <!-- Multiple layered vertical swift trails - curved like ) -->
+  <path d="M24 4 Q36 24 24 44" stroke="url(#verticalGradient48)" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M18 5 Q30 24 18 43" stroke="url(#verticalGradient48)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M30 6 Q40 24 30 42" stroke="url(#verticalGradient48)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M12 7 Q22 24 12 41" stroke="url(#verticalGradient48)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M36 8 Q44 24 36 40" stroke="url(#verticalGradient48)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Swift arrow with motion blur -->
+  <path d="M22 36 L24 42 L26 36" stroke="url(#verticalAccent48)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23 37 L24 41 L25 37" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Swift particle system -->
+  <circle cx="24" cy="12" r="2" fill="#FFD700" opacity="0.9"/>
+  <circle cx="30" cy="18" r="1.8" fill="#FFA500" opacity="0.8"/>
+  <circle cx="18" cy="15" r="1.5" fill="#FF8C00" opacity="0.7"/>
+  <circle cx="36" cy="21" r="1.2" fill="#FFD700" opacity="0.6"/>
+  <circle cx="12" cy="20" r="1" fill="#FFA500" opacity="0.5"/>
+  <circle cx="40" cy="27" r="0.8" fill="#FF8C00" opacity="0.4"/>
+</svg>

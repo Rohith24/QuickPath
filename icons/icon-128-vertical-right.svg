@@ -1,0 +1,72 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="verticalGradient128" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.02" />
+      <stop offset="30%" style="stop-color:#0099FF;stop-opacity:0.3" />
+      <stop offset="70%" style="stop-color:#0066CC;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#003399;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="verticalAccent128" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.2" />
+      <stop offset="70%" style="stop-color:#FFA500;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="verticalBg128" cx="50%" cy="75%" r="40%">
+      <stop offset="0%" style="stop-color:rgba(0,212,255,0.2);stop-opacity:1" />
+      <stop offset="50%" style="stop-color:rgba(0,212,255,0.08);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(0,212,255,0.01);stop-opacity:1" />
+    </radialGradient>
+    <filter id="verticalBlur">
+      <feGaussianBlur stdDeviation="0.5"/>
+    </filter>
+  </defs>
+  
+  <!-- Background swift energy field -->
+  <ellipse cx="64" cy="96" rx="50" ry="20" fill="url(#verticalBg128)"/>
+  
+  <!-- Main vertical swift motion trails - curved like ) -->
+  <path d="M64 8 Q96 64 64 120" stroke="url(#verticalGradient128)" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M48 10 Q80 64 48 118" stroke="url(#verticalGradient128)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M80 12 Q108 64 80 116" stroke="url(#verticalGradient128)" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M32 14 Q64 64 32 114" stroke="url(#verticalGradient128)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M96 16 Q120 64 96 112" stroke="url(#verticalGradient128)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M16 18 Q48 64 16 110" stroke="url(#verticalGradient128)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Blurred background trails for motion blur effect -->
+  <path d="M64 6 Q98 64 64 122" stroke="rgba(0,153,255,0.3)" stroke-width="8" fill="none" stroke-linecap="round" filter="url(#verticalBlur)"/>
+  <path d="M48 8 Q82 64 48 120" stroke="rgba(0,153,255,0.2)" stroke-width="6" fill="none" stroke-linecap="round" filter="url(#verticalBlur)"/>
+  
+  <!-- Swift arrow with layered effect -->
+  <path d="M60 96 L64 112 L68 96" stroke="url(#verticalAccent128)" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M61 98 L64 110 L67 98" stroke="rgba(255,255,255,0.7)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M62 100 L64 108 L66 100" stroke="rgba(255,255,255,0.9)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Swift particle system with varying sizes and opacity -->
+  <circle cx="64" cy="32" r="4" fill="#FFD700" opacity="1"/>
+  <circle cx="80" cy="48" r="3.5" fill="#FFA500" opacity="0.9"/>
+  <circle cx="48" cy="40" r="3" fill="#FF8C00" opacity="0.8"/>
+  <circle cx="96" cy="56" r="2.5" fill="#FFD700" opacity="0.7"/>
+  <circle cx="32" cy="52" r="2" fill="#FFA500" opacity="0.6"/>
+  <circle cx="108" cy="68" r="1.8" fill="#FF8C00" opacity="0.5"/>
+  <circle cx="16" cy="64" r="1.5" fill="#FFD700" opacity="0.4"/>
+  <circle cx="112" cy="80" r="1.2" fill="#FFA500" opacity="0.3"/>
+  <circle cx="20" cy="76" r="1" fill="#FF8C00" opacity="0.2"/>
+  
+  <!-- Additional vertical swift streaks -->
+  <path d="M76 24 L84 36" stroke="url(#verticalAccent128)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+  <path d="M40 28 L48 40" stroke="url(#verticalAccent128)" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M100 44 L104 56" stroke="url(#verticalAccent128)" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M24 48 L28 60" stroke="url(#verticalAccent128)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+  
+  <!-- Energy burst at the arrow tip -->
+  <circle cx="64" cy="112" r="3" fill="#FFD700" opacity="0.8"/>
+  <circle cx="64" cy="115" r="2" fill="#FFA500" opacity="0.6"/>
+  <circle cx="64" cy="118" r="1" fill="#FF8C00" opacity="0.4"/>
+  
+  <!-- Upward motion trails for bidirectional swifting - curved like ( -->
+  <path d="M56 120 Q40 64 56 8" stroke="url(#verticalGradient128)" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <path d="M72 118 Q88 64 72 12" stroke="url(#verticalGradient128)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.3"/>
+  
+  <!-- Upward arrow -->
+  <path d="M68 32 L72 16 L76 32" stroke="url(#verticalAccent128)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+</svg>

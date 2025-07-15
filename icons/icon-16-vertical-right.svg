@@ -1,0 +1,17 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="verticalGradient16" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.3" />
+      <stop offset="70%" style="stop-color:#0099FF;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0066CC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Vertical swift motion trails - curved like ) -->
+  <path d="M8 1 Q12 8 8 15" stroke="url(#verticalGradient16)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M6 2 Q9 8 6 14" stroke="url(#verticalGradient16)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Downward path arrow -->
+  <path d="M6 12 L8 14 L10 12" stroke="#FFD700" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Swift particles -->
+  <circle cx="8" cy="4" r="0.5" fill="#FFD700" opacity="0.6"/>
+  <circle cx="10" cy="6" r="0.5" fill="#FFA500" opacity="0.8"/>
+</svg>
