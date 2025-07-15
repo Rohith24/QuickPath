@@ -2,6 +2,7 @@ class SwiftPath {
   constructor() {
     this.currentTab = null;
     this.savedPaths = [];
+    this.currentEditingPathId = null;
     this.init();
   }
 
@@ -79,7 +80,7 @@ class SwiftPath {
           this.navigateToPath(pathData, true);
         }
       } else if (button.classList.contains('edit-btn')) {
-        this.editPathName(pathId);
+        this.showEditNameModal(pathId);
       } else if (button.classList.contains('delete-btn')) {
         this.deletePath(pathId);
       }
@@ -91,7 +92,32 @@ class SwiftPath {
       if (pathName) {
         const pathItem = pathName.closest('.path-item');
         const pathId = parseInt(pathItem.dataset.pathId);
-        this.editPathName(pathId);
+        this.showEditNameModal(pathId);
+      }
+    });
+
+    // Edit name modal event listeners
+    document.getElementById('cancelEditName').addEventListener('click', () => {
+      this.hideEditNameModal();
+    });
+
+    document.getElementById('saveEditName').addEventListener('click', () => {
+      this.saveEditedName();
+    });
+
+    // Close modal on overlay click
+    document.getElementById('editNameModal').addEventListener('click', (e) => {
+      if (e.target.id === 'editNameModal') {
+        this.hideEditNameModal();
+      }
+    });
+
+    // Handle Enter key in edit name input
+    document.getElementById('editNameInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        this.saveEditedName();
+      } else if (e.key === 'Escape') {
+        this.hideEditNameModal();
       }
     });
 
@@ -220,18 +246,75 @@ class SwiftPath {
     this.updateUI();
   }
 
-  async editPathName(pathId) {
+  showEditNameModal(pathId) {
     const pathData = this.savedPaths.find(p => p.id === pathId);
     if (!pathData) return;
 
-    const newName = prompt('Enter new name:', pathData.name);
-    if (!newName || newName === pathData.name) return;
+    this.currentEditingPathId = pathId;
+    
+    // Populate modal fields
+    document.getElementById('editNameInput').value = pathData.name || '';
+    document.getElementById('editPathUrl').textContent = pathData.path;
+    
+    // Clear any previous error
+    this.hideEditNameError();
+    
+    // Show modal
+    document.getElementById('editNameModal').style.display = 'flex';
+    
+    // Focus and select the input
+    setTimeout(() => {
+      const input = document.getElementById('editNameInput');
+      input.focus();
+      input.select();
+    }, 100);
+  }
+
+  hideEditNameModal() {
+    document.getElementById('editNameModal').style.display = 'none';
+    this.currentEditingPathId = null;
+    this.hideEditNameError();
+  }
+
+  showEditNameError(message) {
+    const errorElement = document.getElementById('editNameError');
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+  }
+
+  hideEditNameError() {
+    const errorElement = document.getElementById('editNameError');
+    errorElement.style.display = 'none';
+  }
+
+  async saveEditedName() {
+    if (!this.currentEditingPathId) return;
+
+    const pathData = this.savedPaths.find(p => p.id === this.currentEditingPathId);
+    if (!pathData) return;
+
+    const newName = document.getElementById('editNameInput').value.trim();
+    
+    if (!newName) {
+      this.showEditNameError('Please enter a name for this path');
+      document.getElementById('editNameInput').focus();
+      return;
+    }
+
+    if (newName === pathData.name) {
+      this.hideEditNameModal();
+      return;
+    }
 
     // Check if new name already exists
-    const nameExists = this.savedPaths.some(p => p.name === newName && p.id !== pathId);
+    const nameExists = this.savedPaths.some(p => p.name === newName && p.id !== this.currentEditingPathId);
     if (nameExists) {
       const confirmed = confirm(`A path with the name "${newName}" already exists. Do you want to replace it?`);
-      if (!confirmed) return;
+      if (!confirmed) {
+        document.getElementById('editNameInput').focus();
+        document.getElementById('editNameInput').select();
+        return;
+      }
       
       // Remove the existing path with the same name
       this.savedPaths = this.savedPaths.filter(p => p.name !== newName);
@@ -240,6 +323,7 @@ class SwiftPath {
     pathData.name = newName;
     await this.savePaths();
     this.updateUI();
+    this.hideEditNameModal();
     this.showNotification('Name updated!');
   }
 
@@ -250,7 +334,46 @@ class SwiftPath {
     const lastSegment = segments[segments.length - 1];
     const cleanSegment = lastSegment.split('?')[0].split('#')[0];
     
-    return cleanSegment || segments[segments.length - 2] || 'Path';
+    // Decode URL encoding (%20, +, etc.) and other HTML entities
+    let decodedName = cleanSegment || segments[segments.length - 2] || 'Path';
+    
+    try {
+      // First decode URI components (%20 -> space, %21 -> !, etc.)
+      decodedName = decodeURIComponent(decodedName);
+      
+      // Handle + signs (commonly used for spaces in query parameters)
+      decodedName = decodedName.replace(/\+/g, ' ');
+      
+      // Handle common HTML entities
+      const htmlEntities = {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#39;': "'",
+        '&apos;': "'",
+        '&nbsp;': ' '
+      };
+      
+      for (const [entity, char] of Object.entries(htmlEntities)) {
+        decodedName = decodedName.replace(new RegExp(entity, 'gi'), char);
+      }
+      
+      // Clean up multiple spaces and trim
+      decodedName = decodedName.replace(/\s+/g, ' ').trim();
+      
+      // If after decoding we get an empty string, fallback
+      if (!decodedName) {
+        decodedName = segments[segments.length - 2] || 'Path';
+      }
+      
+    } catch (error) {
+      // If decoding fails, use the original segment
+      console.warn('Failed to decode path segment:', error);
+      decodedName = cleanSegment || segments[segments.length - 2] || 'Path';
+    }
+    
+    return decodedName;
   }
 
   async navigateToPath(pathData, openInNewTab = false) {
@@ -339,7 +462,7 @@ class SwiftPath {
     });
   }
 
-  updateUI() {
+    updateUI() {
     const currentPath = this.getCurrentPath();
     document.getElementById('currentPath').textContent = currentPath;
     
