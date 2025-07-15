@@ -14,8 +14,16 @@
     </header>
     
     <div class="current-path">
-      <label>Current Path:</label>
-      <span id="currentPath">/</span>
+      <div class="path-info">
+        <label>Current Path:</label>
+        <span id="currentPath">/</span>
+      </div>
+      
+      <div class="name-input-group">
+        <label for="pathName">Name:</label>
+        <input type="text" id="pathName" placeholder="Enter a name for this path" maxlength="100">
+      </div>
+      
       <button id="savePath" class="btn-primary">Save Path</button>
     </div>
     
@@ -24,7 +32,14 @@
     </div>
     
     <div class="paths-section">
-      <h3>Saved Paths</h3>
+      <div class="paths-header">
+        <h3>Saved Paths</h3>
+        <div class="legend">
+          <span class="legend-item">→ Same tab</span>
+          <span class="legend-item">⧉ New tab</span>
+          <span class="legend-item">× Delete</span>
+        </div>
+      </div>
       <div id="pathsList" class="paths-list">
         <div class="empty-state">
           <p>No saved paths yet</p>

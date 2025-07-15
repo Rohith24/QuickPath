@@ -31,6 +31,13 @@ class QuickPath {
       this.saveCurrentPath();
     });
 
+    // Save on Enter key in name input
+    document.getElementById('pathName').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        this.saveCurrentPath();
+      }
+    });
+
     document.getElementById('searchInput').addEventListener('input', (e) => {
       this.filterPaths(e.target.value);
     });
@@ -51,20 +58,56 @@ class QuickPath {
       this.importPaths(e.target.files[0]);
     });
 
-    // Add event delegation for path list buttons
+    // Event delegation for dynamically created path list items
     document.getElementById('pathsList').addEventListener('click', (e) => {
-      const pathItem = e.target.closest('.path-item');
+      const button = e.target.closest('button');
+      if (!button) return;
+
+      const pathItem = button.closest('.path-item');
       if (!pathItem) return;
 
       const pathId = parseInt(pathItem.dataset.pathId);
-      const pathData = this.savedPaths.find(p => p.id === pathId);
-
-      if (e.target.classList.contains('navigate-btn')) {
-        this.navigateToPath(pathData);
-      } else if (e.target.classList.contains('delete-btn')) {
+      
+      if (button.classList.contains('navigate-btn')) {
+        const pathData = this.savedPaths.find(p => p.id === pathId);
+        if (pathData) {
+          this.navigateToPath(pathData, false);
+        }
+      } else if (button.classList.contains('new-tab-btn')) {
+        const pathData = this.savedPaths.find(p => p.id === pathId);
+        if (pathData) {
+          this.navigateToPath(pathData, true);
+        }
+      } else if (button.classList.contains('edit-btn')) {
+        this.editPathName(pathId);
+      } else if (button.classList.contains('delete-btn')) {
         this.deletePath(pathId);
       }
     });
+
+    // Handle double-click on path name to edit
+    document.getElementById('pathsList').addEventListener('dblclick', (e) => {
+      const pathName = e.target.closest('.path-name');
+      if (pathName) {
+        const pathItem = pathName.closest('.path-item');
+        const pathId = parseInt(pathItem.dataset.pathId);
+        this.editPathName(pathId);
+      }
+    });
+
+    // Listen for tab updates to refresh the UI
+    if (chrome.tabs && chrome.tabs.onUpdated) {
+      chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+        if (tab.active && changeInfo.url) {
+          this.refreshCurrentTab();
+        }
+      });
+    }
+  }
+
+  async refreshCurrentTab() {
+    await this.getCurrentTab();
+    this.updateUI();
   }
 
   getCurrentPath() {
@@ -89,21 +132,77 @@ class QuickPath {
     }
   }
 
+  updateNameInput() {
+    const nameInput = document.getElementById('pathName');
+    const path = this.getCurrentPath();
+    
+    if (!path || path === '/') {
+      nameInput.value = '';
+      nameInput.placeholder = 'Cannot save root path';
+      nameInput.disabled = true;
+      return;
+    }
+
+    nameInput.disabled = false;
+    
+    // Check if this path already exists
+    const existingPath = this.savedPaths.find(p => p.path === path);
+    
+    if (existingPath) {
+      // Path exists, populate with existing name
+      nameInput.value = existingPath.name;
+      nameInput.placeholder = 'Update existing path';
+    } else {
+      // New path, generate suggested name
+      const suggestedName = this.generatePathName(path);
+      nameInput.value = suggestedName;
+      nameInput.placeholder = 'Enter a name for this path';
+    }
+    
+    // Select the text for easy editing
+    nameInput.select();
+  }
+
   async saveCurrentPath() {
     const path = this.getCurrentPath();
-    const domain = this.getCurrentDomain();
+    const nameInput = document.getElementById('pathName');
+    const customName = nameInput.value.trim();
     
     if (!path || path === '/') {
       this.showNotification('Cannot save root path', 'error');
       return;
     }
 
+    if (!customName) {
+      this.showNotification('Please enter a name for this path', 'error');
+      nameInput.focus();
+      return;
+    }
+
+    const domain = this.getCurrentDomain();
     const existingIndex = this.savedPaths.findIndex(p => p.path === path);
+    
+    // Check if name already exists (excluding current path if updating)
+    const nameExists = this.savedPaths.some(p => 
+      p.name === customName && p.path !== path
+    );
+
+    if (nameExists) {
+      const confirmed = confirm(`A path with the name "${customName}" already exists. Do you want to replace it?`);
+      if (!confirmed) {
+        nameInput.focus();
+        nameInput.select();
+        return;
+      }
+      
+      // Remove the existing path with the same name
+      this.savedPaths = this.savedPaths.filter(p => p.name !== customName);
+    }
     
     const pathData = {
       id: existingIndex >= 0 ? this.savedPaths[existingIndex].id : Date.now(),
       path: path,
-      name: this.generatePathName(path),
+      name: customName,
       savedFrom: domain,
       createdAt: existingIndex >= 0 ? this.savedPaths[existingIndex].createdAt : new Date().toISOString(),
       lastUsed: new Date().toISOString()
@@ -121,6 +220,29 @@ class QuickPath {
     this.updateUI();
   }
 
+  async editPathName(pathId) {
+    const pathData = this.savedPaths.find(p => p.id === pathId);
+    if (!pathData) return;
+
+    const newName = prompt('Enter new name:', pathData.name);
+    if (!newName || newName === pathData.name) return;
+
+    // Check if new name already exists
+    const nameExists = this.savedPaths.some(p => p.name === newName && p.id !== pathId);
+    if (nameExists) {
+      const confirmed = confirm(`A path with the name "${newName}" already exists. Do you want to replace it?`);
+      if (!confirmed) return;
+      
+      // Remove the existing path with the same name
+      this.savedPaths = this.savedPaths.filter(p => p.name !== newName);
+    }
+
+    pathData.name = newName;
+    await this.savePaths();
+    this.updateUI();
+    this.showNotification('Name updated!');
+  }
+
   generatePathName(path) {
     const segments = path.split('/').filter(s => s);
     if (segments.length === 0) return 'Root';
@@ -131,8 +253,8 @@ class QuickPath {
     return cleanSegment || segments[segments.length - 2] || 'Path';
   }
 
-  async navigateToPath(pathData) {
-    console.log('Navigating to path:', pathData);
+  async navigateToPath(pathData, openInNewTab = false) {
+    console.log('Navigating to path:', pathData, 'New tab:', openInNewTab);
     const currentDomain = this.getCurrentDomain();
     const protocol = this.currentTab.url.split('://')[0];
     const newUrl = `${protocol}://${currentDomain}${pathData.path}`;
@@ -140,7 +262,12 @@ class QuickPath {
     pathData.lastUsed = new Date().toISOString();
     await this.savePaths();
     
-    await chrome.tabs.update(this.currentTab.id, { url: newUrl });
+    if (openInNewTab) {
+      await chrome.tabs.create({ url: newUrl });
+    } else {
+      await chrome.tabs.update(this.currentTab.id, { url: newUrl });
+    }
+    
     window.close();
   }
 
@@ -213,7 +340,25 @@ class QuickPath {
   }
 
   updateUI() {
-    document.getElementById('currentPath').textContent = this.getCurrentPath();
+    const currentPath = this.getCurrentPath();
+    document.getElementById('currentPath').textContent = currentPath;
+    
+    // Update the name input with auto-populated value
+    this.updateNameInput();
+    
+    // Update save button state
+    const saveButton = document.getElementById('savePath');
+    const nameInput = document.getElementById('pathName');
+    
+    if (!currentPath || currentPath === '/') {
+      saveButton.disabled = true;
+      saveButton.textContent = 'Cannot Save Root Path';
+    } else {
+      saveButton.disabled = false;
+      const existingPath = this.savedPaths.find(p => p.path === currentPath);
+      saveButton.textContent = existingPath ? 'Update Path' : 'Save Path';
+    }
+    
     this.renderPathsList();
   }
 
@@ -234,14 +379,18 @@ class QuickPath {
       new Date(b.lastUsed) - new Date(a.lastUsed)
     );
 
+    const currentPath = this.getCurrentPath();
+
     pathsList.innerHTML = sortedPaths.map(path => `
-      <div class="path-item" data-path-id="${path.id}">
+      <div class="path-item ${path.path === currentPath ? 'current-path-item' : ''}" data-path-id="${path.id}">
         <div class="path-info">
-          <div class="path-name">${this.escapeHtml(path.name)}</div>
+          <div class="path-name" title="Double-click to edit">${this.escapeHtml(path.name || 'Unnamed')}</div>
           <div class="path-url">${this.escapeHtml(path.path)}</div>
         </div>
         <div class="path-actions">
-          <button class="btn-icon navigate-btn" title="Navigate to path">→</button>
+          <button class="btn-icon navigate-btn" title="Navigate to path (same tab)">→</button>
+          <button class="btn-icon new-tab-btn" title="Open in new tab">⧉</button>
+          <button class="btn-icon edit-btn" title="Edit name">✏</button>
           <button class="btn-icon delete-btn" title="Delete path">×</button>
         </div>
       </div>
@@ -249,6 +398,7 @@ class QuickPath {
   }
 
   escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
