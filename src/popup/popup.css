@@ -36,7 +36,7 @@ header h1 {
 }
 
 .current-path {
-  margin-bottom: 16px;
+  margin: 16px 0;
   padding: 12px;
   background-color: #f8f9fa;
   border-radius: 6px;

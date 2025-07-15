@@ -462,28 +462,39 @@ class SwiftPath {
     });
   }
 
-    updateUI() {
-    const currentPath = this.getCurrentPath();
-    document.getElementById('currentPath').textContent = currentPath;
+      updateUI() {
+      const currentPath = this.getCurrentPath();
+      const currentPathElement = document.getElementById('currentPath');
     
-    // Update the name input with auto-populated value
-    this.updateNameInput();
+      // Display current path or placeholder text
+      if (!currentPath || currentPath === '/') {
+        currentPathElement.textContent = 'Root path (cannot be saved)';
+        currentPathElement.style.opacity = '0.6';
+        currentPathElement.style.fontStyle = 'italic';
+      } else {
+        currentPathElement.textContent = currentPath;
+        currentPathElement.style.opacity = '1';
+        currentPathElement.style.fontStyle = 'normal';
+      }
     
-    // Update save button state
-    const saveButton = document.getElementById('savePath');
-    const nameInput = document.getElementById('pathName');
+      // Update the name input with auto-populated value
+      this.updateNameInput();
     
-    if (!currentPath || currentPath === '/') {
-      saveButton.disabled = true;
-      saveButton.textContent = 'Cannot Save Root Path';
-    } else {
-      saveButton.disabled = false;
-      const existingPath = this.savedPaths.find(p => p.path === currentPath);
-      saveButton.textContent = existingPath ? 'Update Path' : 'Save Path';
+      // Update save button state
+      const saveButton = document.getElementById('savePath');
+      const nameInput = document.getElementById('pathName');
+    
+      if (!currentPath || currentPath === '/') {
+        saveButton.disabled = true;
+        saveButton.textContent = 'Cannot Save Root Path';
+      } else {
+        saveButton.disabled = false;
+        const existingPath = this.savedPaths.find(p => p.path === currentPath);
+        saveButton.textContent = existingPath ? 'Update Path' : 'Save Path';
+      }
+    
+      this.renderPathsList();
     }
-    
-    this.renderPathsList();
-  }
 
   renderPathsList() {
     const pathsList = document.getElementById('pathsList');
@@ -513,12 +524,12 @@ class SwiftPath {
         <div class="path-actions">
           <button class="btn-icon navigate-btn" title="Navigate to path (same tab)">→</button>
           <button class="btn-icon new-tab-btn" title="Open in new tab">⧉</button>
-          <button class="btn-icon edit-btn" title="Edit name">✏</button>
           <button class="btn-icon delete-btn" title="Delete path">×</button>
         </div>
       </div>
     `).join('');
   }
+    //<button class="btn-icon edit-btn" title="Edit name">✏</button>
 
   escapeHtml(text) {
     if (!text) return '';

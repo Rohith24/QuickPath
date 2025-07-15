@@ -13,27 +13,14 @@
       <p class="tagline">Navigate paths across domains</p>
     </header>
     
-    <div class="current-path">
-      <div class="path-info">
-        <label>Current Path:</label>
-        <span id="currentPath">/</span>
-      </div>
-      
-      <div class="name-input-group">
-        <label for="pathName">Name:</label>
-        <input type="text" id="pathName" placeholder="Enter a name for this path" maxlength="100">
-      </div>
-      
-      <button id="savePath" class="btn-primary">Save Path</button>
-    </div>
-    
-    <div class="search-section">
-      <input type="text" id="searchInput" placeholder="Search saved paths..." />
-    </div>
-    
     <div class="paths-section">
       <div class="paths-header">
         <h3>Saved Paths</h3>
+        
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="Search saved paths..." />
+        </div>
+    
         <div class="legend">
           <span class="legend-item">→ Same tab</span>
           <span class="legend-item">⧉ New tab</span>
@@ -46,6 +33,20 @@
           <p class="hint">Save the current path to get started</p>
         </div>
       </div>
+    </div>
+    <div class="current-path">
+      <div class="current-path-header">
+        <h3>Save Current Path</h3>
+      </div>
+      <div class="path-info">
+        <span id="currentPath">/</span>
+      </div>
+      
+      <div class="name-input-group">
+        <input type="text" id="pathName" placeholder="Enter a name for this path" maxlength="100">
+      </div>
+      
+      <button id="savePath" class="btn-primary">Save Path</button>
     </div>
     
     <div class="actions">
