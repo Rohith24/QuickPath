@@ -518,8 +518,8 @@ class SwiftPath {
     pathsList.innerHTML = sortedPaths.map(path => `
       <div class="path-item ${path.path === currentPath ? 'current-path-item' : ''}" data-path-id="${path.id}">
         <div class="path-info">
-          <div class="path-name" title="Double-click to edit">${this.escapeHtml(path.name || 'Unnamed')}</div>
-          <div class="path-url">${this.escapeHtml(path.path)}</div>
+          <div class="path-name" title="${this.escapeHtml(path.name || 'Unnamed')}">${this.escapeHtml(path.name || 'Unnamed')}</div>
+          <div class="path-url" title="${this.escapeHtml(path.path)}">${this.escapeHtml(path.path)}</div>
         </div>
         <div class="path-actions">
           <button class="btn-icon navigate-btn" title="Navigate to path (same tab)">→</button>

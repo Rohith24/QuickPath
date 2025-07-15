@@ -32,12 +32,6 @@ SwiftPath respects your privacy:
 - No tracking or analytics
 - See [PRIVACY_POLICY.md](PRIVACY_POLICY.md) for full details
 
-## Development
-
-- Replace placeholder icons in `/icons/` with actual PNG files
-- Test thoroughly before publishing
-- Follow Chrome Web Store policies
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

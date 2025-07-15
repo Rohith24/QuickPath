@@ -3,7 +3,10 @@
   "name": "SwiftPath",
   "version": "1.0.0",
   "description": "Bookmark and quickly navigate to paths across different domains. Perfect for developers and admins managing multiple sites.",
-  
+  "homepage_url": "https://github.com/Rohith24/SwiftPath",
+  "author": "Rohith Challa",
+  "short_name": "SwiftPath",
+
   "permissions": [
     "storage",
     "activeTab"

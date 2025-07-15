@@ -23,16 +23,27 @@ header {
   padding-bottom: 12px;
 }
 
-header h1 {
-  margin: 0 0 4px 0;
-  font-size: 18px;
-  color: #333;
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.tagline {
+.app-icon {
+  color: #4f46e5; 
+  flex-shrink: 0;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.header-text h1 {
   margin: 0;
-  font-size: 12px;
-  color: #666;
+}
+
+.header-text .tagline {
+  margin: 0;
 }
 
 .current-path {
@@ -169,98 +180,160 @@ header h1 {
   font-size: 12px;
   color: #adb5bd;
 }
+  .path-item {
+    position: relative;
+    padding: 8px 12px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+  }
 
-.path-item {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid #e9ecef;
-}
+  .path-item:last-child {
+    border-bottom: none;
+  }
 
-.path-item:last-child {
-  border-bottom: none;
-}
+  .path-item:hover {
+    background: #e9ecef;
+    padding: 8px 12px 12px 12px;
+  }
 
-.path-item:hover {
-  background-color: #f8f9fa;
-}
+  .current-path-item {
+    background-color: #e3f2fd;
+    border-left: 3px solid #007bff;
+  }
 
-.current-path-item {
-  background-color: #e3f2fd;
-  border-left: 3px solid #007bff;
-}
+  .current-path-item:hover {
+    background-color: #e3f2fd;
+  }
 
-.current-path-item:hover {
-  background-color: #e3f2fd;
-}
+  .path-info {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.2;
+  }
 
-.path-info {
-  flex: 1;
-  min-width: 0;
-}
+  .path-name {
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+  }
 
-.path-name {
-  font-weight: 500;
-  font-size: 13px;
-  color: #333;
-  margin-bottom: 4px;
-  cursor: pointer;
-}
+  .current-path-item .path-name {
+    color: #007bff;
+    font-weight: 600;
+  }
 
-.current-path-item .path-name {
-  color: #007bff;
-  font-weight: 600;
-}
+  .path-url {
+    display: none;
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
+  }
 
-.path-url {
-  font-family: monospace;
-  font-size: 11px;
-  color: #6c757d;
-  word-break: break-all;
-}
+  .path-item:hover .path-url {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    display: block;
+  }
 
-.current-path-item .path-url {
-  color: #0056b3;
-}
+  .current-path-item .path-url {
+    color: #0056b3;
+  }
 
-.path-actions {
-  display: flex;
-  gap: 4px;
-  margin-left: 8px;
-}
+  .path-actions {
+    display: flex;
+    gap: 4px;
+    margin-left: 8px;
+  }
 
-.btn-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 3px;
-  font-size: 12px;
-  color: #6c757d;
-}
+  .btn-icon {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
 
-.btn-icon:hover {
-  background-color: #e9ecef;
-  color: #495057;
-}
+  .btn-icon:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
 
-.actions {
-  margin-top: 16px;
-  display: flex;
-  gap: 8px;
-}
+  .paths-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 4px 0;
+  }
 
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  flex: 1;
-}
+  .paths-section {
+    margin-bottom: 16px;
+  }
 
+  .current-path {
+    margin-bottom: 16px;
+  }
+
+  .paths-header h3,
+  .current-path-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+  }
+
+  .legend {
+    margin: 8px 0 4px 0;
+    font-size: 11px;
+  }
+
+  .legend-item {
+    margin-right: 12px;
+  }
+
+  .empty-state {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .empty-state p {
+    margin: 4px 0;
+  }
+
+  .actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    flex: 1;
+  }
 .btn-secondary:hover {
   background-color: #545b62;
 }
