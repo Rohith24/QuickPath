@@ -513,3 +513,37 @@ header {
 .modal-overlay {
   animation: modalFadeIn 0.2s ease-out;
 }
+
+/* Contact Section Styles */
+.contact-section {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.contact-link, .privacy-link {
+  color: #007bff;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.contact-link:hover, .privacy-link:hover {
+  background-color: #e3f2fd;
+  text-decoration: none;
+}
+
+.separator {
+  color: #ccc;
+  font-size: 0.8rem;
+}
